@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<web-app>
+	<display-name>Report Logs Servlet</display-name>
+	<description>Report Logs App</description>
+	<servlet>
+		<servlet-name>Employees</servlet-name>
+		<servlet-class>EmployeesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Employees</servlet-name>
+		<url-pattern>/employees</url-pattern>
+	</servlet-mapping>
+</web-app>
