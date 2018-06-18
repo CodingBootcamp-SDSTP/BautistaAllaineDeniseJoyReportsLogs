@@ -84,6 +84,20 @@ handlers["/login"] = function(req, res) {
 	});
 }
 
+handlers["/sessionId"] = function(req, res) {
+	if(sessionId == "") {
+		res.writeHead(400, { "Content-Type" : "text/plain" });
+		res.end("Session ID required. Please log in.");
+	}
+	else {
+		client.get(sessionId, function(err, result) {
+			res.writeHead(200, { "Content-Type" : "text/plain" });
+			res.end(sessionId + " " + result);
+		});
+		
+	}
+}
+
 handlers["/employees/username/"] = (req, res, username) => {
 	options[3].path = "/reportlogsapp/employees?username=" + username;
 	requestFromServlet(res, options[3]);

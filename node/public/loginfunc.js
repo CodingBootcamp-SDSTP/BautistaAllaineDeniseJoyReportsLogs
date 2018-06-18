@@ -4,7 +4,7 @@ window.onload = function() {
 		var xhr = new XMLHttpRequest();
 		let un = document.getElementById('username').value;
 		let pw = document.getElementById('password').value;
-		let url = "http://localhost:8030/login?username=" + un + "&password=" + pw;
+		let url = "login?username=" + un + "&password=" + pw;
 		xhr.open('GET', url, true);
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4) {
