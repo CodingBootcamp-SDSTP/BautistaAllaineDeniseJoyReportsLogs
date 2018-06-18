@@ -6,8 +6,24 @@
 		<servlet-name>Employees</servlet-name>
 		<servlet-class>EmployeesServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Sites</servlet-name>
+		<servlet-class>SitesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Alarms</servlet-name>
+		<servlet-class>AlarmsServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Employees</servlet-name>
 		<url-pattern>/employees</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Sites</servlet-name>
+		<url-pattern>/sites</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Alarms</servlet-name>
+		<url-pattern>/alarms</url-pattern>
 	</servlet-mapping>
 </web-app>

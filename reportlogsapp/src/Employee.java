@@ -29,11 +29,11 @@ public class Employee
 		return(firstName);
 	}
 
-	public void setAge(String a) {
+	public void setAge(int a) {
 		age = a;
 	}
 
-	public String getAge() {
+	public int getAge() {
 		return(age);
 	}
 

@@ -1,3 +1,7 @@
+import java.sql.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class Employees
 {
 	static Employees _instance = null;
@@ -26,7 +30,7 @@ public class Employees
 
 	public void readFromDB(Connection conn) {
 		Statement stmt = null;
-		ResultSet rs = null
+		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM engineers;");
@@ -39,7 +43,7 @@ public class Employees
 					rs.getString("department"),
 					rs.getString("username"),
 					rs.getString("password")
-				}
+				};
 				addEmployee(row);
 			}
 		}
@@ -49,10 +53,14 @@ public class Employees
 	}
 
 	public void addEmployee(String... content) {
-		employeesMap.put(content[0], new Employee(content[0], content[1], content[2], Integer.parseInt(content[3]), content[4], content[5], content[6]));
+		employeesMap.put(content[5], new Employee(content[0], content[1], content[2], Integer.parseInt(content[3]), content[4], content[5], content[6]));
 	}
 
-	public Employee getEmployee(String i) {
-		return(employeesMap.get(i));
+	public Employee getEmployee(String u) {
+		return(employeesMap.get(u));
+	}
+
+	public ArrayList<Employee> getAllEmployees() {
+		return(new ArrayList<Employee>(employeesMap.values()));
 	}
 }
