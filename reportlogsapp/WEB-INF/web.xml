@@ -14,6 +14,14 @@
 		<servlet-name>Alarms</servlet-name>
 		<servlet-class>AlarmsServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Logs</servlet-name>
+		<servlet-class>LogsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AddEntry</servlet-name>
+		<servlet-class>AddEntryServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Employees</servlet-name>
 		<url-pattern>/employees</url-pattern>
@@ -25,5 +33,13 @@
 	<servlet-mapping>
 		<servlet-name>Alarms</servlet-name>
 		<url-pattern>/alarms</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Logs</servlet-name>
+		<url-pattern>/logs</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddEntry</servlet-name>
+		<url-pattern>/addentry</url-pattern>
 	</servlet-mapping>
 </web-app>

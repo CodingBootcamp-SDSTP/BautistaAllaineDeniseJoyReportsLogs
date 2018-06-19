@@ -28,6 +28,13 @@ const options = [
 	{
 		hostname: '127.0.0.1',
 		port: 8080
+	},
+	{
+		hostname: '127.0.0.1',
+		method: "POST",
+		port: 8080,
+		path: '/reportlogsapp/addentry',
+		header: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}
 ];
 
@@ -84,18 +91,41 @@ handlers["/login"] = function(req, res) {
 	});
 }
 
-handlers["/sessionId"] = function(req, res) {
-	if(sessionId == "") {
-		res.writeHead(400, { "Content-Type" : "text/plain" });
-		res.end("Session ID required. Please log in.");
-	}
-	else {
-		client.get(sessionId, function(err, result) {
-			res.writeHead(200, { "Content-Type" : "text/plain" });
-			res.end(sessionId + " " + result);
+handlers["/logs"] = (req, res) => {
+	if(req.method == "POST") {
+		let data = "";
+		req.on('data', function(d) {
+			data += d;
 		});
-		
+		req.on('end', function() {
+			let json = JSON.parse(data);
+			// console.log(data);
+			let content = "alarm=" + json.alarm + "&site=" + json.site + 
+				"&action=" + json.action + "&remarks=" + json.remarks + 
+				"&engineer=" + json.engineer + "&date=" + json.date;
+			console.log(content);
+			const reqServlet = http.request(options[4]);
+			reqServlet.write(content);
+			reqServlet.end();
+			res.writeHead(200, { "Content-Type" : "text/plain"});
+			res.end("Received");
+		});
 	}
+};
+
+handlers["/sessionId"] = function(req, res) {
+	doesSessionExist(sessionId, function(reply) {
+		if(!reply) {
+			res.writeHead(400, { "Content-Type" : "text/plain" });
+			res.end("Session ID required. Please log in.");
+		}
+		else {
+			client.get(sessionId, function(err, result) {
+				res.writeHead(200, { "Content-Type" : "text/plain" });
+				res.end(sessionId + " " + result);
+			});
+		}
+	});
 }
 
 handlers["/employees/username/"] = (req, res, username) => {
@@ -120,23 +150,38 @@ function startSession(name, callback) {
 	});
 }
 
+function doesSessionExist(sessionid, callback) {
+	client.exists(sessionid, function(err, reply) {
+		callback(reply);
+	});
+}
+
 function requestFromServlet(res, option) {
-	if(sessionId == "") {
+	doesSessionExist(sessionId, function(reply) {
+		if(!reply) {
+			res.writeHead(400, { "Content-Type" : "text/plain" });
+			res.end("Session ID required. Please log in.");
+		}
+		else {
+			const reqServlet = http.request(option);
+			reqServlet.end();
+			reqServlet.on('response', (resServlet) => {
+				let respData = "";
+				resServlet.on('data', (data) => {
+					respData += data;
+				});
+				resServlet.on('end', () => {
+					writeResponse(res, respData);
+				});
+			});
+		}
+	});
+	/* if(sessionId == "") {
 		res.writeHead(400, { "Content-Type" : "text/plain" });
 		res.end("Session ID required. Please log in.");
 		return;
-	}
-	const reqServlet = http.request(option);
-	reqServlet.end();
-	reqServlet.on('response', (resServlet) => {
-		let respData = "";
-		resServlet.on('data', (data) => {
-			respData += data;
-		});
-		resServlet.on('end', () => {
-			writeResponse(res, respData);
-		});
-	});
+	} */
+	
 }
 
 function writeResponse(res, data) {

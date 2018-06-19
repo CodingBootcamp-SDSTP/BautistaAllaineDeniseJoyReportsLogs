@@ -91,4 +91,38 @@ public class XMLCreator
 		writer.writeEndElement();
 		writer.writeEndElement();
 	}
+
+	public void printLogs(ArrayList<Entry> entriesArray) throws XMLStreamException {
+		writer.writeStartElement("entrieslist");
+		for(Entry e : entriesArray) {
+			printEntry(e);
+		}
+		writer.writeEndElement();
+	}
+
+	public void printEntry(Entry e) throws XMLStreamException {
+		writer.writeStartElement("entry");
+		writer.writeStartElement("id");
+		writer.writeCharacters(Integer.toString(e.getId()));
+		writer.writeEndElement();
+		writer.writeStartElement("alarmid");
+		writer.writeCharacters(e.getAlarmId());
+		writer.writeEndElement();
+		writer.writeStartElement("siteid");
+		writer.writeCharacters(e.getSiteId());
+		writer.writeEndElement();
+		writer.writeStartElement("action");
+		writer.writeCharacters(e.getAction());
+		writer.writeEndElement();
+		writer.writeStartElement("remarks");
+		writer.writeCharacters(e.getRemarks());
+		writer.writeEndElement();
+		writer.writeStartElement("employeeid");
+		writer.writeCharacters(e.getEmployeeId());
+		writer.writeEndElement();
+		writer.writeStartElement("time");
+		writer.writeCharacters(e.getTime());
+		writer.writeEndElement();
+		writer.writeEndElement();
+	}
 }

@@ -4,17 +4,17 @@ DROP TABLE IF EXISTS alarms;
 DROP TABLE IF EXISTS engineers;
 CREATE TABLE sites (id VARCHAR(255) PRIMARY KEY, name VARCHAR(255) NOT NULL,
 	address VARCHAR(255) NOT NULL);
-CREATE TABLE engineers(id VARCHAR(255) PRIMARY KEY, firstName VARCHAR(255) NOT NULL,
+CREATE TABLE engineers(username VARCHAR(255) NOT NULL PRIMARY KEY,
+	id VARCHAR(255), firstName VARCHAR(255) NOT NULL,
 	lastName VARCHAR(255) NOT NULL, age INTEGER NOT NULL,
-	department VARCHAR(255) NOT NULL, username VARCHAR(255) NOT NULL,
-	password VARCHAR(255) NOT NULL);
+	department VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL);
 CREATE TABLE alarms(id VARCHAR(255) PRIMARY KEY, name VARCHAR(255) NOT NULL,
 	description VARCHAR(255) NOT NULL, technology VARCHAR(255) NOT NULL);
-CREATE TABLE logs(alarmid VARCHAR(255) NOT NULL, siteid VARCHAR(255) NOT NULL,
-	action VARCHAR(255) NOT NULL, employeeid VARCHAR(255) NOT NULL,
+CREATE TABLE logs(id INTEGER PRIMARY KEY AUTO_INCREMENT, alarmid VARCHAR(255) NOT NULL, siteid VARCHAR(255) NOT NULL,
+	action VARCHAR(255) NOT NULL, remarks VARCHAR(255) NOT NULL, engineer VARCHAR(255) NOT NULL,
 	time DATETIME NOT NULL, FOREIGN KEY(alarmid) REFERENCES alarms(id),
 	FOREIGN KEY(siteid) REFERENCES sites(id),
-	FOREIGN KEY(employeeid) REFERENCES engineers(id));
+	FOREIGN KEY(engineer) REFERENCES engineers(username));
 INSERT INTO sites (id, name, address) VALUES ('MIN111', 'BAJADA', 'bajada');
 INSERT INTO sites (id, name, address) VALUES ('MIN112', 'BUHANGIN', 'buhangin');
 INSERT INTO engineers (id, firstName, lastName, age, department, username, password)
