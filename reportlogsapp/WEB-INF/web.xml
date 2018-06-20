@@ -3,8 +3,8 @@
 	<display-name>Report Logs Servlet</display-name>
 	<description>Report Logs App</description>
 	<servlet>
-		<servlet-name>Employees</servlet-name>
-		<servlet-class>EmployeesServlet</servlet-class>
+		<servlet-name>Engineers</servlet-name>
+		<servlet-class>EngineersServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Sites</servlet-name>
@@ -23,8 +23,8 @@
 		<servlet-class>AddEntryServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Employees</servlet-name>
-		<url-pattern>/employees</url-pattern>
+		<servlet-name>Engineers</servlet-name>
+		<url-pattern>/engineers</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Sites</servlet-name>

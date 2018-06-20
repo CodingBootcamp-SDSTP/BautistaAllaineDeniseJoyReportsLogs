@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 
 public class Logs
@@ -8,25 +8,32 @@ public class Logs
 
 	public static Logs instance() {
 		if(_instance == null) {
-			_instance = new Logs(origin);
+			_instance = new Logs();
 		}
 		return(_instance);
 	}
 
-	HashMap<Integer, Entry> entriesMap;
-	Connection conn;
+	LinkedHashMap<Integer, Entry> entriesMap;
+	Connection conn = null;
+	Sites sites;
+	Alarms alarms;
+	Engineers engineers;
 
 	private Logs() {
-		entriesMap = new HashMap<Integer, Entry>();
-		try {
+		entriesMap = new LinkedHashMap<Integer, Entry>();
+		/* try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdb?user=user&" +
 			"password=dict2018&serverTimezone=UTC&useSSL=false");
-			readFromDB();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-		}
+		} */
+		sites = Sites.instance();
+		alarms = Alarms.instance();
+		engineers = Engineers.instance();
+		conn = DatabaseConnector.instance().getConnection();
+		readFromDB();
 	}
 
 	public void readFromDB() {
@@ -34,7 +41,7 @@ public class Logs
 		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM logs;");
+			rs = stmt.executeQuery("SELECT * FROM logs ORDER BY time DESC;");
 			while(rs.next()) {
 				String[] row = {
 					Integer.toString(rs.getInt("id")),
@@ -87,11 +94,24 @@ public class Logs
 
 	public void addEntry(String... content) {
 		int id = Integer.parseInt(content[0]);
-		entriesMap.put(id, new Entry(id, content[1], content[2], content[3], content[4], content[5], content[6]));
+		Alarm alarm = alarms.getAlarm(content[1]);
+		Site site = sites.getSite(content[2]);
+		Engineer engineer = engineers.getEngineer(content[5]);
+		entriesMap.put(id, new Entry(id, alarm, site, content[3], content[4], engineer, content[6]));
 	}
 
 	public Entry getEntry(int i) {
 		return(entriesMap.get(i));
+	}
+
+	public ArrayList<Entry> searchEntries(ArrayList<Entry> array, String str, String type) {
+		ArrayList<Entry> matchedEntries = new ArrayList<Entry>();
+		for(Entry e : array) {
+			if(e.match(str, type)) {
+				matchedEntries.add(e);
+			}
+		}
+		return(matchedEntries);
 	}
 
 	public ArrayList<Entry> getAllEntries() {

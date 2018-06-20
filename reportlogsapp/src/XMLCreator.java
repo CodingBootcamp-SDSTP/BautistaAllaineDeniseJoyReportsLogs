@@ -11,16 +11,16 @@ public class XMLCreator
 		writer = w;
 	}
 
-	public void printEmployees(ArrayList<Employee> employeesArray) throws XMLStreamException {
-		writer.writeStartElement("employeelist");
-		for(Employee e : employeesArray) {
-			printEmployee(e);
+	public void printEngineers(ArrayList<Engineer> engineersArray) throws XMLStreamException {
+		writer.writeStartElement("engineerlist");
+		for(Engineer e : engineersArray) {
+			printEngineer(e);
 		}
 		writer.writeEndElement();
 	}
 
-	public void printEmployee(Employee e) throws XMLStreamException {
-		writer.writeStartElement("employee");
+	public void printEngineer(Engineer e) throws XMLStreamException {
+		writer.writeStartElement("engineer");
 		writer.writeStartElement("id");
 		writer.writeCharacters(e.getId());
 		writer.writeEndElement();
@@ -105,21 +105,15 @@ public class XMLCreator
 		writer.writeStartElement("id");
 		writer.writeCharacters(Integer.toString(e.getId()));
 		writer.writeEndElement();
-		writer.writeStartElement("alarmid");
-		writer.writeCharacters(e.getAlarmId());
-		writer.writeEndElement();
-		writer.writeStartElement("siteid");
-		writer.writeCharacters(e.getSiteId());
-		writer.writeEndElement();
+		printAlarm(e.getAlarm());
+		printSite(e.getSite());
 		writer.writeStartElement("action");
 		writer.writeCharacters(e.getAction());
 		writer.writeEndElement();
 		writer.writeStartElement("remarks");
 		writer.writeCharacters(e.getRemarks());
 		writer.writeEndElement();
-		writer.writeStartElement("employeeid");
-		writer.writeCharacters(e.getEmployeeId());
-		writer.writeEndElement();
+		printEngineer(e.getEngineer());
 		writer.writeStartElement("time");
 		writer.writeCharacters(e.getTime());
 		writer.writeEndElement();

@@ -17,15 +17,16 @@ public class Alarms
 
 	private Alarms() {
 		alarmsMap = new HashMap<String, Alarm>();
-		try {
+		Connection conn = DatabaseConnector.instance().getConnection();
+		/* try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdb?user=user&" +
-			"password=dict2018&serverTimezone=UTC&useSSL=false");
+			"password=dict2018&serverTimezone=UTC&useSSL=false"); */
 			readFromDB(conn);
-		}
+		/* }
 		catch(Exception e) {
 			e.printStackTrace();
-		}
+		} */
 	}
 
 	public void readFromDB(Connection conn) {

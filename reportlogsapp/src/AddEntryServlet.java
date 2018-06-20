@@ -12,10 +12,11 @@ public class AddEntryServlet extends HttpServlet
 	Logs logs = null;
 
 	public void init() throws ServletException {
-		logs = Logs.instance("from addentry");
+		logs = Logs.instance();
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
 		BufferedReader reader = request.getReader();
 		String content = reader.readLine();
 		String[] rows = content.split("&");

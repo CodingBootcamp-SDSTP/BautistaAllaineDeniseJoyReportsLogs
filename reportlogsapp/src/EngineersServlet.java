@@ -6,12 +6,12 @@ import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.XMLOutputFactory;
 import java.util.ArrayList;
 
-public class EmployeesServlet extends HttpServlet
+public class EngineersServlet extends HttpServlet
 {
-	Employees employees = null;
+	Engineers engineers = null;
 
 	public void init() throws ServletException {
-		employees = Employees.instance();
+		engineers = Engineers.instance();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,9 +25,9 @@ public class EmployeesServlet extends HttpServlet
 			if(qs != null) {
 				String username = request.getParameter("username");
 				if(username != null) {
-					if(employees.getEmployee(username) != null) {
+					if(engineers.getEngineer(username) != null) {
 						writer.writeStartDocument();
-						xc.printEmployee(employees.getEmployee(username));
+						xc.printEngineer(engineers.getEngineer(username));
 						writer.writeEndDocument();
 						writer.close();
 					}
@@ -35,7 +35,7 @@ public class EmployeesServlet extends HttpServlet
 			}
 			else {
 				writer.writeStartDocument();
-				xc.printEmployees(employees.getAllEmployees());
+				xc.printEngineers(engineers.getAllEngineers());
 				writer.writeEndDocument();
 				writer.close();
 			}
@@ -47,7 +47,7 @@ public class EmployeesServlet extends HttpServlet
 	}
 
 	public void destroy() {
-		employees = null;
+		engineers = null;
 	}
 
 }

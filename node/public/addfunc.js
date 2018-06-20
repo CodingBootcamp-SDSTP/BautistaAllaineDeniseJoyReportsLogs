@@ -2,8 +2,7 @@ window.onload = function() {
 	let username = "";
 	getSession((respText) => {
 		username = respText.split(" ")[1];
-		console.log(username);
-		setEmployeeSpan(username);
+		setEngineerSpan(username);
 	});
 	populateSiteSelector();
 	populateAlarmSelector();
@@ -89,16 +88,16 @@ function populateAlarmSelector() {
 	xhr.send();
 }
 
-function setEmployeeSpan(username) {
-	let employee = document.getElementById("employee");
+function setEngineerSpan(username) {
+	let engineer = document.getElementById("engineer");
 	let xhr = new XMLHttpRequest();
 	let json;
-	xhr.open('GET', 'employees/username/' + username, true);
+	xhr.open('GET', 'engineers/username/' + username, true);
 	xhr.onreadystatechange = () => {
 		if(xhr.readyState == 4) {
 			json = JSON.parse(xhr.responseText);
 			console.log(json);
-			employee.innerHTML = json.employee[0].firstName + " " + json.employee[0].lastName;
+			engineer.innerHTML = json.engineer[0].firstName + " " + json.engineer[0].lastName;
 		}
 	}
 	xhr.send();

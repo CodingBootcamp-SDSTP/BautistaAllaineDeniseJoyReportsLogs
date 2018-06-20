@@ -13,7 +13,7 @@ const options = [
 	{
 		hostname: '127.0.0.1',
 		port: 8080,
-		path: '/reportlogsapp/employees'
+		path: '/reportlogsapp/engineers'
 	},
 	{
 		hostname: '127.0.0.1',
@@ -24,6 +24,11 @@ const options = [
 		hostname: '127.0.0.1',
 		port: 8080,
 		path: '/reportlogsapp/alarms'
+	},
+	{
+		hostname: '127.0.0.1',
+		port: 8080,
+		path: '/reportlogsapp/logs'
 	},
 	{
 		hostname: '127.0.0.1',
@@ -38,7 +43,7 @@ const options = [
 	}
 ];
 
-handlers["/employees"] = (req, res) => {
+handlers["/engineers"] = (req, res) => {
 	if(req.method == "GET") {
 		requestFromServlet(res, options[0]);
 	}
@@ -60,8 +65,8 @@ handlers["/login"] = function(req, res) {
 	let data = qs.parse(req.url)
 	let un = data['/login?username'];
 	let pw = data['password'];
-	options[3].path = "/reportlogsapp/employees?username=" + un;
-	const reqServlet = http.request(options[3]);
+	options[4].path = "/reportlogsapp/engineers?username=" + un;
+	const reqServlet = http.request(options[4]);
 	reqServlet.end();
 	reqServlet.on('response', (resServlet) => {
 		let respData = "";
@@ -71,7 +76,7 @@ handlers["/login"] = function(req, res) {
 		resServlet.on('end', () => {
 			let obj = xmlToJson(respData);
 			if(JSON.stringify(obj) != "{}") {
-				if(pw == obj.employee[0].password) {
+				if(pw == obj.engineer[0].password) {
 					startSession(un, function(id) {
 						sessionId = id;
 						res.writeHead(200, { "Content-Type" : "text/plain" });
@@ -99,17 +104,34 @@ handlers["/logs"] = (req, res) => {
 		});
 		req.on('end', function() {
 			let json = JSON.parse(data);
-			// console.log(data);
 			let content = "alarm=" + json.alarm + "&site=" + json.site + 
 				"&action=" + json.action + "&remarks=" + json.remarks + 
 				"&engineer=" + json.engineer + "&date=" + json.date;
-			console.log(content);
-			const reqServlet = http.request(options[4]);
+			const reqServlet = http.request(options[5]);
 			reqServlet.write(content);
 			reqServlet.end();
 			res.writeHead(200, { "Content-Type" : "text/plain"});
 			res.end("Received");
 		});
+	}
+	if(req.method == "GET") {
+		let split = req.url.split("?");
+		if(split.length > 1) {
+			let query = qs.parse(split[1]);
+			let path = "/reportlogsapp/logs?";
+			for(let k in query) {
+				if(path != "/reportlogsapp/logs?") {
+					path += "&"
+				}
+				path += k + "=" + query[k];
+				
+			}
+			options[4].path = path;
+			requestFromServlet(res, options[4]);
+		}
+		else {
+			requestFromServlet(res, options[3]);
+		}
 	}
 };
 
@@ -128,19 +150,19 @@ handlers["/sessionId"] = function(req, res) {
 	});
 }
 
-handlers["/employees/username/"] = (req, res, username) => {
-	options[3].path = "/reportlogsapp/employees?username=" + username;
-	requestFromServlet(res, options[3]);
+handlers["/engineers/username/"] = (req, res, username) => {
+	options[4].path = "/reportlogsapp/engineers?username=" + username;
+	requestFromServlet(res, options[4]);
 };
 
 handlers["/sites/id/"] = (req, res, id) => {
-	options[3].path = "/reportlogsapp/sites?id=" + id;
-	requestFromServlet(res, options[3]);
+	options[4].path = "/reportlogsapp/sites?id=" + id;
+	requestFromServlet(res, options[4]);
 };
 
 handlers["/alarms/id/"] = (req, res, id) => {
-	options[3].path = "/reportlogsapp/alarms?id=" + id;
-	requestFromServlet(res, options[3]);
+	options[4].path = "/reportlogsapp/alarms?id=" + id;
+	requestFromServlet(res, options[4]);
 };
 
 function startSession(name, callback) {
@@ -175,13 +197,7 @@ function requestFromServlet(res, option) {
 				});
 			});
 		}
-	});
-	/* if(sessionId == "") {
-		res.writeHead(400, { "Content-Type" : "text/plain" });
-		res.end("Session ID required. Please log in.");
-		return;
-	} */
-	
+	});	
 }
 
 function writeResponse(res, data) {
@@ -193,6 +209,8 @@ function writeResponse(res, data) {
 function xmlToJson(respData) {
 	j = {};
 	let xmlObject = xml.parse(respData);
+	// console.log(respData);
+	// return(xmlObject);
 	for(let r of xmlObject) {
 		recurse(r, j);
 	}
@@ -212,8 +230,8 @@ function parseChild(a, obj) {
 }
 
 function recurse(r, j) {
-	if(r.childNodes.length != 0 && r.childNodes[0].type == "text") {
-		j[r.tagName] = r.childNodes[0].text;
+	if(!r.innerXML.match(".*<.*") && !r.innerXML.match(".*>.*")) {
+		j[r.tagName] = r.innerXML;
 		return;
 	}
 	else if(r.type == "element") {
@@ -232,7 +250,8 @@ function recurse(r, j) {
 }
 
 var server = http.createServer(function(req, res) {
-	let h = handlers[req.url];
+	let requrl = req.url;
+	let h = handlers[requrl.split("?")[0]];
 	if(h) {
 		h(req, res);
 	}

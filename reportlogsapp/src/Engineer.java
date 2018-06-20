@@ -1,9 +1,9 @@
-public class Employee
+public class Engineer
 {
 	private String userName, password, id, firstName, lastName, department;
 	private int age;
 
-	public Employee(String i, String f, String l, int a, String d, String u, String p) {
+	public Engineer(String i, String f, String l, int a, String d, String u, String p) {
 		id = i;
 		firstName = f;
 		lastName = l;

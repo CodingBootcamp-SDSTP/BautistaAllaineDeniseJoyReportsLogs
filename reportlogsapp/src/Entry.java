@@ -1,15 +1,18 @@
 public class Entry
 {
-	private String alarmid, siteid, action, remarks, employeeid, time;
+	private String action, remarks,time;
+	private Alarm alarm;
+	private Site site;
+	private Engineer engineer;
 	final int ID;
 
-	public Entry(int i, String aid, String s, String a, String r, String e, String t) {
+	public Entry(int i, Alarm al, Site s, String a, String r, Engineer e, String t) {
 		ID = i;
-		alarmid = aid;
-		siteid = s;
+		alarm = al;
+		site = s;
 		action = a;
 		remarks = r;
-		employeeid = e;
+		engineer = e;
 		time = t;
 	}
 
@@ -17,20 +20,20 @@ public class Entry
 		return(ID);
 	}
 
-	public void setAlarmId(String a) {
-		alarmid = a;
+	public void setAlarm(Alarm a) {
+		alarm = a;
 	}
 
-	public String getAlarmId() {
-		return(alarmid);
+	public Alarm getAlarm() {
+		return(alarm);
 	}
 
-	public void setSiteId(String s) {
-		siteid = s;
+	public void setSite(Site s) {
+		site = s;
 	}
 
-	public String getSiteId() {
-		return(siteid);
+	public Site getSite() {
+		return(site);
 	}
 
 	public void setAction(String a) {
@@ -49,12 +52,12 @@ public class Entry
 		return(remarks);
 	}
 
-	public void setEmployeeId(String e) {
-		employeeid = e;
+	public void setEngineer(Engineer e) {
+		engineer = e;
 	}
 
-	public String getEmployeeId() {
-		return(employeeid);
+	public Engineer getEngineer() {
+		return(engineer);
 	}
 
 	public void setTime(String t) {
@@ -63,5 +66,46 @@ public class Entry
 
 	public String getTime() {
 		return(time);
+	}
+
+	public boolean match(String str, String type) {
+		boolean ismatch = false;
+		switch(type) {
+			case "id":
+				if(Integer.toString(ID).contains(str)) {
+					ismatch = true;
+				}
+				break;
+			case "alarm":
+				String alarmLower = alarm.getName().toLowerCase();
+				if(alarmLower.contains(str)) {
+					ismatch = true;
+				}
+				break;
+			case "site":
+				String siteLower = site.getName().toLowerCase();
+				if(siteLower.contains(str)) {
+					ismatch = true;
+				}
+				break;
+			case "action":
+				if(action.toLowerCase().contains(str)) {
+					ismatch = true;
+				}
+				break;
+			case "remarks":
+				if(remarks.toLowerCase().contains(str)) {
+					ismatch = true;
+				}
+				break;
+			case "engineer":
+				String firstLower = engineer.getFirstName().toLowerCase();
+				String lastLower = engineer.getLastName().toLowerCase();
+				if(firstLower.contains(str) || lastLower.contains(str)) {
+					ismatch = true;
+				}
+				break;
+		}
+		return(ismatch);
 	}
 }

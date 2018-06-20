@@ -2,30 +2,31 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class Employees
+public class Engineers
 {
-	static Employees _instance = null;
+	static Engineers _instance = null;
 
-	public static Employees instance() {
+	public static Engineers instance() {
 		if(_instance == null) {
-			_instance = new Employees();
+			_instance = new Engineers();
 		}
 		return(_instance);
 	}
 
-	HashMap<String, Employee> employeesMap;
+	HashMap<String, Engineer> engineersMap;
 
-	private Employees() {
-		employeesMap = new HashMap<String, Employee>();
-		try {
+	private Engineers() {
+		Connection conn = DatabaseConnector.instance().getConnection();
+		engineersMap = new HashMap<String, Engineer>();
+		/* try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdb?user=user&" +
-			"password=dict2018&serverTimezone=UTC&useSSL=false");
+			"password=dict2018&serverTimezone=UTC&useSSL=false"); */
 			readFromDB(conn);
-		}
+		/* }
 		catch(Exception e) {
 			e.printStackTrace();
-		}
+		} */
 	}
 
 	public void readFromDB(Connection conn) {
@@ -44,7 +45,7 @@ public class Employees
 					rs.getString("username"),
 					rs.getString("password")
 				};
-				addEmployee(row);
+				addEngineer(row);
 			}
 		}
 		catch(Exception e) {
@@ -52,15 +53,15 @@ public class Employees
 		}
 	}
 
-	public void addEmployee(String... content) {
-		employeesMap.put(content[5], new Employee(content[0], content[1], content[2], Integer.parseInt(content[3]), content[4], content[5], content[6]));
+	public void addEngineer(String... content) {
+		engineersMap.put(content[5], new Engineer(content[0], content[1], content[2], Integer.parseInt(content[3]), content[4], content[5], content[6]));
 	}
 
-	public Employee getEmployee(String u) {
-		return(employeesMap.get(u));
+	public Engineer getEngineer(String u) {
+		return(engineersMap.get(u));
 	}
 
-	public ArrayList<Employee> getAllEmployees() {
-		return(new ArrayList<Employee>(employeesMap.values()));
+	public ArrayList<Engineer> getAllEngineers() {
+		return(new ArrayList<Engineer>(engineersMap.values()));
 	}
 }
