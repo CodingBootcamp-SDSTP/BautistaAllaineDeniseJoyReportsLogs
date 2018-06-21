@@ -22,6 +22,10 @@
 		<servlet-name>AddEntry</servlet-name>
 		<servlet-class>AddEntryServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AddEngineer</servlet-name>
+		<servlet-class>AddEngineerServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Engineers</servlet-name>
 		<url-pattern>/engineers</url-pattern>
@@ -41,5 +45,9 @@
 	<servlet-mapping>
 		<servlet-name>AddEntry</servlet-name>
 		<url-pattern>/addentry</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddEngineer</servlet-name>
+		<url-pattern>/addengineer</url-pattern>
 	</servlet-mapping>
 </web-app>

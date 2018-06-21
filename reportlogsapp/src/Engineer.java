@@ -2,8 +2,9 @@ public class Engineer
 {
 	private String userName, password, id, firstName, lastName, department;
 	private int age;
+	private boolean isAdmin;
 
-	public Engineer(String i, String f, String l, int a, String d, String u, String p) {
+	public Engineer(String i, String f, String l, int a, String d, String u, String p, boolean ia) {
 		id = i;
 		firstName = f;
 		lastName = l;
@@ -11,6 +12,7 @@ public class Engineer
 		department = d;
 		userName = u;
 		password = p;
+		isAdmin = ia;
 	}
 
 	public void setId(String i) {
@@ -67,5 +69,13 @@ public class Engineer
 
 	public String getPassword() {
 		return(password);
+	}
+
+	public void setIsAdmin(boolean i) {
+		isAdmin = i;
+	}
+
+	public boolean getIsAdmin() {
+		return(isAdmin);
 	}
 }

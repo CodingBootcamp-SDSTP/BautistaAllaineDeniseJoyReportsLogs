@@ -3,17 +3,23 @@
 	<head>
 		<Title>Dashboard</Title>
 		<script src="dashboardfunc.js"></script>
-		<!-- <link rel="stylesheet" type="text/css" href="loginstyle.css"> -->
+		<link rel="stylesheet" type="text/css" href="dashboardstyle.css">
 	</head>
 	<body>
 		<div id="container">
 			<div id = "header">
 				<h1>Dashboard</h1>
 			</div>
-			<div id="mainbody">
-				<p><a href="viewLogs.html" id="view">View/Modify Entries</a></p>
-				<p><a href="addLogs.html" id="add">Add Entry</a></p>
+			<div id="menuWrapper">
+				<div id="name">
+				</div>
+				<div id="menu">
+					<div class="menuItem"><a href="#" id="view">View Entries</a></div>
+					<div class="menuItem"><a href="#" id="add">Add Entry</a></div>
+					<div class="menuItem"><a href="#" id="logout">Log out</a></div>
+				</div>
 			</div>
-			</div>
+			<div id="body"></div>
+		</div>
 	</body>
 </html>

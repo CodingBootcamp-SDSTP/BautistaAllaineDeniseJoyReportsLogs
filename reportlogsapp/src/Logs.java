@@ -58,6 +58,12 @@ public class Logs
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+			try{ if(stmt != null) stmt.close(); }
+			catch(Exception e) { e.printStackTrace(); }
+			try{ if(rs != null) rs.close(); }
+			catch(Exception e) { e.printStackTrace(); }
+		}
 	}
 
 	public void writeToDB(String... data) {
@@ -75,6 +81,10 @@ public class Logs
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+			try{ if(ps != null) ps.close(); }
+			catch(Exception e) { e.printStackTrace(); }
+		}
 	}
 
 	public int getLastID() {
@@ -89,6 +99,12 @@ public class Logs
 		catch(Exception e) {
 			e.printStackTrace();
 			return(-1);
+		}
+		finally {
+			try{ if(stmt != null) stmt.close(); }
+			catch(Exception e) { e.printStackTrace(); }
+			try{ if(rs != null) rs.close(); }
+			catch(Exception e) { e.printStackTrace(); }
 		}
 	}
 

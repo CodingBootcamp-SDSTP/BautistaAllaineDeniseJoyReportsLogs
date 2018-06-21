@@ -3,34 +3,36 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 
-public class AddEntryServlet extends HttpServlet
+public class AddEngineerServlet extends HttpServlet
 {
-	Logs logs = null;
+	Engineers engineers = null;
 
 	public void init() throws ServletException {
-		logs = Logs.instance();
+		engineers = Engineers.instance();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		BufferedReader reader = request.getReader();
 		String content = reader.readLine();
+		System.out.println(content);
 		String[] rows = content.split("&");
-		String[] data = new String[rows.length + 1];
-		for(int i = 1; i < rows.length + 1; i++) {
-			String[] split = rows[i - 1].split("=");
+		String[] data = new String[rows.length];
+		for(int i = 0; i < rows.length; i++) {
+			String[] split = rows[i].split("=");
 			if(split.length < 2) {
 				data[i] = null;
 			}
 			else {
-				data[i] = (rows[i - 1].split("="))[1];
+				data[i] = (rows[i].split("="))[1];
+				System.out.println(data[i]);
 			}
 		}
-		logs.writeToDB(data);
+		engineers.writeToDB(data);
 	}
 
 	public void destroy() {
-		logs = null;
+		engineers = null;
 	}
 
 }

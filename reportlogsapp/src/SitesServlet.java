@@ -4,7 +4,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.XMLOutputFactory;
-import java.util.ArrayList;
 
 public class SitesServlet extends HttpServlet
 {

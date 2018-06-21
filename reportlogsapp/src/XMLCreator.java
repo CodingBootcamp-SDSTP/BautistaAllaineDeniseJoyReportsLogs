@@ -42,6 +42,9 @@ public class XMLCreator
 		writer.writeStartElement("password");
 		writer.writeCharacters(e.getPassword());
 		writer.writeEndElement();
+		writer.writeStartElement("admin");
+		writer.writeCharacters(Boolean.toString(e.getIsAdmin()));
+		writer.writeEndElement();
 		writer.writeEndElement();
 	}
 

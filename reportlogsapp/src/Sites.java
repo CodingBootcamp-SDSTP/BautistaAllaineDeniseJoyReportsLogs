@@ -47,6 +47,12 @@ public class Sites
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+			try{ if(stmt != null) stmt.close(); }
+			catch(Exception e) { e.printStackTrace(); }
+			try{ if(rs != null) rs.close(); }
+			catch(Exception e) { e.printStackTrace(); }
+		}
 	}
 
 	public void addSite(String... content) {

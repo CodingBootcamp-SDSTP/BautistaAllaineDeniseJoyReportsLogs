@@ -40,11 +40,36 @@ const options = [
 		port: 8080,
 		path: '/reportlogsapp/addentry',
 		header: {'Content-Type': 'application/x-www-form-urlencoded'}
+	},
+	{
+		hostname: '127.0.0.1',
+		method: "POST",
+		port: 8080,
+		path: '/reportlogsapp/addengineer',
+		header: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}
 ];
 
 handlers["/engineers"] = (req, res) => {
-	if(req.method == "GET") {
+	if(req.method == "POST") {
+		let data = "";
+		req.on('data', function(d) {
+			data += d;
+		});
+		req.on('end', function() {
+			let json = JSON.parse(data);
+			let content = "id=" + json.id + "&firstName=" + json.firstName + 
+				"&lastName=" + json.lastName + "&age=" + json.age + 
+				"&department=" + json.department + "&username=" + json.username +
+				"&password=" + json.password + "&isadmin=" + json.isadmin;
+			const reqServlet = http.request(options[6]);
+			reqServlet.write(content);
+			reqServlet.end();
+			res.writeHead(200, { "Content-Type" : "text/plain"});
+			res.end("Received");
+		});
+	}
+	else if(req.method == "GET") {
 		requestFromServlet(res, options[0]);
 	}
 };
@@ -96,6 +121,13 @@ handlers["/login"] = function(req, res) {
 	});
 }
 
+handlers["/logout"] = function(req, res) {
+	endSession(() => {
+		res.writeHead(200, { "Content-Type" : "text/plain" });
+		res.end(sessionId);
+	});
+}
+
 handlers["/logs"] = (req, res) => {
 	if(req.method == "POST") {
 		let data = "";
@@ -114,7 +146,7 @@ handlers["/logs"] = (req, res) => {
 			res.end("Received");
 		});
 	}
-	if(req.method == "GET") {
+	else if(req.method == "GET") {
 		let split = req.url.split("?");
 		if(split.length > 1) {
 			let query = qs.parse(split[1]);
@@ -175,6 +207,15 @@ function startSession(name, callback) {
 function doesSessionExist(sessionid, callback) {
 	client.exists(sessionid, function(err, reply) {
 		callback(reply);
+	});
+}
+
+function endSession(callback) {
+	client.del(sessionId, function(err, reply) {
+		if(reply != 0) {
+			sessionId = "";
+		}
+		callback();
 	});
 }
 
