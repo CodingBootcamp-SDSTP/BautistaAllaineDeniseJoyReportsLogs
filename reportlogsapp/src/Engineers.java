@@ -19,15 +19,7 @@ public class Engineers
 	private Engineers() {
 		conn = DatabaseConnector.instance().getConnection();
 		engineersMap = new HashMap<String, Engineer>();
-		/* try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdb?user=user&" +
-			"password=dict2018&serverTimezone=UTC&useSSL=false"); */
-			readFromDB();
-		/* }
-		catch(Exception e) {
-			e.printStackTrace();
-		} */
+		readFromDB();
 	}
 
 	public void readFromDB() {

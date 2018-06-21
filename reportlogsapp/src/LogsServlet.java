@@ -63,5 +63,4 @@ public class LogsServlet extends HttpServlet
 	public void destroy() {
 		logs = null;
 	}
-
 }

@@ -6,7 +6,8 @@ window.onload = function() {
 		username = respText.split(" ")[1];
 		getEngineer(username, (json) => {
 			engineer = json.engineer[0];
-			document.getElementById("name").innerHTML = "<p>Welcome " + engineer.firstName + " " + engineer.lastName + "</p>";
+			document.getElementById("name").innerHTML = "<p>Welcome " +
+				engineer.firstName + " " + engineer.lastName + "</p>";
 			if(engineer.admin == "true") {
 				admin = true;
 				let div1 = document.createElement("div");
@@ -34,7 +35,8 @@ window.onload = function() {
 			"<p><label>Remarks: </label><input type=\"text\" id=\"remarks\" /></p>" +
 			"<p><label>Engineer: </label><span id=\"engineer\"></span></p>" +
 			"<p><a href=\"#\" id=\"addEntry\">Add</a></p>";
-		document.getElementById("engineer").innerHTML = engineer.firstName + " " + engineer.lastName;
+		document.getElementById("engineer").innerHTML = engineer.firstName +
+			" " + engineer.lastName;
 		populateSiteSelector();
 		populateAlarmSelector();
 		let add = document.getElementById('addEntry');
@@ -78,31 +80,17 @@ window.onload = function() {
 
 	document.getElementById("view").onclick = function() {
 		let body = document.getElementById("body");
-		body.innerHTML = "<div id=\"filter\">" +
-				"<p>Filter</p>" +
-				"<div>" +
-					"<label>ID: </label><input type=\"text\" id=\"filterId\" />" +
-					"<label>Alarm: </label><input type=\"text\" id=\"filterAlarm\" />" +
-					"<label>Site: </label><input type=\"text\" id=\"filterSite\" />" +
-					"<label>Action: </label><input type=\"text\" id=\"filterAction\" />" +
-					"<label>Remarks: </label><input type=\"text\" id=\"filterRemarks\" />" +
-					"<label>Engineer: </label><input type=\"text\" id=\"filterEngineer\" />" +
-					"<a href=\"#\" id=\"doFilter\">Filter</a>" +
-				"</div>" +
-			"</div>" +
-			"<table>" +
-				"<thead>" +
-					"<th>ID</th>" +
-					"<th>Alarm</th>" +
-					"<th>Site</th>" +
-					"<th>Action</th>" +
-					"<th>Remarks</th>" +
-					"<th>Engineer</th>" +
-					"<th>Date</th>" +
-				"</thead>" +
-				"<tbody id=\"table\">" +
-				"</tbody>" +
-			"</table>";
+		body.innerHTML = "<div id=\"filter\"><p>Filter</p><div>" +
+			"<label>ID: </label><input type=\"text\" id=\"filterId\" />" +
+			"<label>Alarm: </label><input type=\"text\" id=\"filterAlarm\" />" +
+			"<label>Site: </label><input type=\"text\" id=\"filterSite\" />" +
+			"<label>Action: </label><input type=\"text\" id=\"filterAction\" />" +
+			"<label>Remarks: </label><input type=\"text\" id=\"filterRemarks\" />" +
+			"<label>Engineer: </label><input type=\"text\" id=\"filterEngineer\" />" +
+			"<a href=\"#\" id=\"doFilter\">Filter</a></div></div><table>" +
+			"<thead><th>ID</th><th>Alarm</th><th>Site</th><th>Action</th>" +
+			"<th>Remarks</th><th>Engineer</th><th>Date</th></thead>" +
+			"<tbody id=\"table\"></tbody></table>";
 		populateTable("logs");
 		document.getElementById("doFilter").onclick = function() {
 			let filters = ["filterId", "filterAlarm", "filterSite", "filterAction", "filterRemarks", "filterEngineer"];
@@ -226,11 +214,13 @@ function populateTable(url) {
 				cell.appendChild(text);
 				row.appendChild(cell);
 				cell = document.createElement("td");
-				text = document.createTextNode(entry.engineer[0].firstName + " " + entry.engineer[0].lastName);
+				text = document.createTextNode(entry.engineer[0].firstName +
+					" " + entry.engineer[0].lastName);
 				cell.appendChild(text);
 				row.appendChild(cell);
 				cell = document.createElement("td");
-				text = document.createTextNode(new Date(Number(entry.time) - 28800000).toLocaleString());
+				text = document.createTextNode(new Date(Number
+					(entry.time) - 28800000).toLocaleString());
 				cell.appendChild(text);
 				row.appendChild(cell);
 				document.getElementById("table").appendChild(row);
@@ -250,13 +240,10 @@ function makeAddEngBody(callback) {
 	"<p><label>Department: </label><input type=\"text\" id=\"addDepartment\" /></p>" +
 	"<p><label>Username: </label><input type=\"text\" id=\"addUsername\"></p>" +
 	"<p><label>Password: </label><input type=\"password\" id=\"addPassword\" /></p>" +
-	"<p><label>Admin: </label>" +
-		"<span id=\"radiobuttons\">" +
-			"<input type=\"radio\" name=\"admin\" value=\"true\" />Yes" +
-			"<input type=\"radio\" name=\"admin\" value=\"false\" checked/>No" +
-		"</span>" +
-	"</p>" +
-	"<p><a href=\"#\" id=\"addEngineer\">Add</a></p>"
+	"<p><label>Admin: </label><span id=\"radiobuttons\">" +
+	"<input type=\"radio\" name=\"admin\" value=\"true\" />Yes" +
+	"<input type=\"radio\" name=\"admin\" value=\"false\" checked/>No" +
+	"</span></p><p><a href=\"#\" id=\"addEngineer\">Add</a></p>"
 	callback();
 }
 

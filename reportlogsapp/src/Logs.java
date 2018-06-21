@@ -21,14 +21,6 @@ public class Logs
 
 	private Logs() {
 		entriesMap = new LinkedHashMap<Integer, Entry>();
-		/* try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdb?user=user&" +
-			"password=dict2018&serverTimezone=UTC&useSSL=false");
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		} */
 		sites = Sites.instance();
 		alarms = Alarms.instance();
 		engineers = Engineers.instance();

@@ -2,44 +2,55 @@ body {
 	margin: 0px;
 	font-family: Arial;
 }
+
 #header {
 	background: rgb(0, 18, 184); color: white;
 	font-size: 16px; padding:16px;
 }
+
 #menuWrapper {
 	width: calc(100vw - 20px);
 	height: 20px;
 	padding: 10px 10px 10px 10px;
 	background: rgb(0, 18, 184); color: white;
 }
+
 #name {
 	float: left;
 	display: block;
 }
+
 #name p {
 	margin: 0;
 }
+
 #menu {
 	float: right;
 	display: block;
 }
+
 .menuItem {
 	padding: 10px 5px 10px 5px;
 	display: inline;
 }
+
 .menuItem a{
 	text-decoration: none;
 	color: white;
 }
+
 .menuItem + .menuItem {
 	margin-left: 8px;
 }
+
 h1 {
 	margin: 0px;
 }
+
 .menuItem:hover{
 	background: rgb(1, 6, 54);
 }
+
 #body {
 	padding: 0 10px 0 10px;
 }

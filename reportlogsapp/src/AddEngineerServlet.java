@@ -15,7 +15,6 @@ public class AddEngineerServlet extends HttpServlet
 		throws ServletException, IOException {
 		BufferedReader reader = request.getReader();
 		String content = reader.readLine();
-		System.out.println(content);
 		String[] rows = content.split("&");
 		String[] data = new String[rows.length];
 		for(int i = 0; i < rows.length; i++) {
@@ -25,7 +24,6 @@ public class AddEngineerServlet extends HttpServlet
 			}
 			else {
 				data[i] = (rows[i].split("="))[1];
-				System.out.println(data[i]);
 			}
 		}
 		engineers.writeToDB(data);

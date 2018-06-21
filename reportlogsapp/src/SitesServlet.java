@@ -42,7 +42,6 @@ public class SitesServlet extends HttpServlet
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void destroy() {
